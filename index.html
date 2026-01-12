@@ -111,24 +111,60 @@ for (let i = 0; i < 30; i++) {
 
     <div class="buttons">
         <button id="yes" onclick="goLove()">Yes 😍</button>
-        <button id="no" onmouseenter="runAway()">No 🙈</button>
+        <button id="no" tabindex="-1" onmouseenter="runAway(event)" onmousemove="runAway(event)" ontouchstart="runAway(event); return false;" onclick="runAway(event); return false;" onfocus="runAway(event)" onkeydown="preventSelect(event)">No 🙈</button>
     </div>
 
-    <div class="hint">Hint: No option is fake 😌</div>
+    <noscript><div style="margin-top:10px;"><a href="index1.html">Click here to continue</a></div></noscript>
+
 </div>
 
 <script>
-function runAway() {
+function runAway(event) {
     const no = document.getElementById("no");
-    const maxX = window.innerWidth - no.offsetWidth;
-    const maxY = window.innerHeight - no.offsetHeight;
+    const container = document.querySelector('.buttons');
 
+    // container bounds and available space
+    const maxX = Math.max(0, container.clientWidth - no.offsetWidth);
+    const maxY = Math.max(0, container.clientHeight - no.offsetHeight);
+
+    // If we have mouse/touch coords, try to move away from the pointer
+    if (event && event.clientX !== undefined) {
+        const cRect = container.getBoundingClientRect();
+        const mouseX = event.clientX - cRect.left;
+        const mouseY = event.clientY - cRect.top;
+
+        // pick a random spot; if too close to cursor, flip it
+        let newX = Math.random() * maxX;
+        let newY = Math.random() * maxY;
+
+        const dx = newX - mouseX;
+        const dy = newY - mouseY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        if (dist < 100) {
+            newX = Math.max(0, Math.min(maxX, maxX - newX));
+            newY = Math.max(0, Math.min(maxY, maxY - newY));
+        }
+
+        no.style.left = newX + 'px';
+        no.style.top = newY + 'px';
+        return;
+    }
+
+    // fallback
     no.style.left = Math.random() * maxX + "px";
     no.style.top  = Math.random() * maxY + "px";
 }
 
+function preventSelect(e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        runAway();
+    }
+}
+
 function goLove() {
-    window.location.href = "love.html";
+    window.location.href = "index1.html";
 }
 </script>
 
