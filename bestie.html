@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Just One Question 💕</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Comic Neue', cursive;
+    overflow: hidden;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 35px 45px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    z-index: 2;
+}
+
+.card img {
+    width: 170px;
+}
+
+h1 {
+    color: #ff4f7a;
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.buttons {
+    position: relative;
+    height: 100px;
+}
+
+button {
+    padding: 14px 35px;
+    font-size: 18px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yes {
+    background: #ff4f7a;
+    color: white;
+    box-shadow: 0 10px 20px rgba(255,79,122,0.4);
+}
+
+#yes:hover {
+    transform: scale(1.2);
+}
+
+#no {
+    background: #f1f1f1;
+    color: #555;
+    position: absolute;
+    left: 160px;
+}
+
+.hint {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for (let i = 0; i < 30; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+}
+</script>
+
+<div class="card">
+    <img src="https://i.imgur.com/4AiXzf8.png">
+    <h1>Do you love me? 💕</h1>
+
+    <div class="buttons">
+        <button id="yes" onclick="goLove()">Yes 😍</button>
+        <button id="no" onmouseenter="runAway()">No 🙈</button>
+    </div>
+
+    <div class="hint">Hint: No option is fake 😌</div>
+</div>
+
+<script>
+function runAway() {
+    const no = document.getElementById("no");
+    const maxX = window.innerWidth - no.offsetWidth;
+    const maxY = window.innerHeight - no.offsetHeight;
+
+    no.style.left = Math.random() * maxX + "px";
+    no.style.top  = Math.random() * maxY + "px";
+}
+
+function goLove() {
+    window.location.href = "love.html";
+}
+</script>
+
+</body>
+</html>
